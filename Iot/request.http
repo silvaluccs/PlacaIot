@@ -1,5 +1,19 @@
-GET 192.168.0.120/led/on
+GET 192.168.0.120/led
+      /blue
+      /red
 
 ###
+GET 192.168.0.120/led/red
+###
+GET 192.168.0.120/led/yellow
+###
+GET 192.168.0.120/led/cyan
+###
+GET 192.168.0.120/led/green
+###
+GET 192.168.0.120/led/violet
+###
+GET 192.168.0.120/led/white
+###
+GET 192.168.0.120/led/off
 
-GET 192.168.0.120/off

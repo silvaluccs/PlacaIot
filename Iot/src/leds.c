@@ -3,8 +3,9 @@
 #include <hardware/structs/io_bank0.h>
 #include <leds.h>
 #include <pico/stdlib.h>
+#include <pico/types.h>
 
-void inicializar_led_pwm(uint pin_led) {
+void init_led_pwm(uint pin_led) {
 
   gpio_set_function(pin_led, GPIO_FUNC_PWM);
   uint slice_num = pwm_gpio_to_slice_num(pin_led);
@@ -16,3 +17,50 @@ void inicializar_led_pwm(uint pin_led) {
 
 void led_on(uint pin_led, uint wrap) { pwm_set_gpio_level(pin_led, wrap); }
 void led_off(uint pin_led) { pwm_set_gpio_level(pin_led, 0); }
+
+void select_color(colors color, uint wrap, uint pin_led_blue, uint pin_led_red,
+                  uint pin_led_green) {
+
+  switch (color) {
+  case Blue:
+    led_on(pin_led_blue, wrap);
+    led_off(pin_led_red);
+    led_off(pin_led_green);
+    break;
+  case Red:
+    led_on(pin_led_red, wrap);
+    led_off(pin_led_blue);
+    led_off(pin_led_green);
+    break;
+  case Green:
+    led_on(pin_led_green, wrap);
+    led_off(pin_led_blue);
+    led_off(pin_led_red);
+    break;
+  case Yellow:
+    led_on(pin_led_blue, wrap);
+    led_on(pin_led_green, wrap);
+    led_off(pin_led_red);
+    break;
+  case White:
+    led_on(pin_led_blue, wrap);
+    led_on(pin_led_green, wrap);
+    led_on(pin_led_red, wrap);
+    break;
+  case Violet:
+    led_on(pin_led_red, wrap);
+    led_off(pin_led_green);
+    led_on(pin_led_blue, wrap);
+    break;
+  case Cyan:
+    led_on(pin_led_blue, wrap);
+    led_on(pin_led_green, wrap);
+    led_off(pin_led_red);
+    break;
+  case (Black):
+    led_off(pin_led_blue);
+    led_off(pin_led_red);
+    led_off(pin_led_green);
+    break;
+  }
+}
