@@ -15,6 +15,7 @@ typedef struct Stack {
 
 void init_stack(Stack* stack);
 bool isEmpty(Stack* stack);
+char* top(Stack* stack);
 void push(Stack* stack, char* request);
 void pop(Stack* stack);
 void free_stack(Stack* stack);

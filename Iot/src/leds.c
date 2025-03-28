@@ -4,6 +4,14 @@
 #include <leds.h>
 #include <pico/stdlib.h>
 #include <pico/types.h>
+#include <string.h>
+
+extern uint pin_led_red;
+extern uint pin_led_blue;
+extern uint pin_led_green;
+
+extern colors current_color_led;
+extern uint wrap;
 
 void init_led_pwm(uint pin_led) {
 
@@ -38,9 +46,9 @@ void select_color(colors color, uint wrap, uint pin_led_blue, uint pin_led_red,
     led_off(pin_led_red);
     break;
   case Yellow:
-    led_on(pin_led_blue, wrap);
+    led_on(pin_led_red, wrap);
     led_on(pin_led_green, wrap);
-    led_off(pin_led_red);
+    led_off(pin_led_blue);
     break;
   case White:
     led_on(pin_led_blue, wrap);
@@ -63,4 +71,66 @@ void select_color(colors color, uint wrap, uint pin_led_blue, uint pin_led_red,
     led_off(pin_led_green);
     break;
   }
+}
+
+void process_request(char *request) {
+
+  if (strstr(request, "GET /led/blue")) {
+    current_color_led = Blue;
+
+  } else if (strstr(request, "GET /led/red")) {
+    current_color_led = Red;
+
+  } else if (strstr(request, "GET /led/green")) {
+    current_color_led = Green;
+
+  } else if (strstr(request, "GET /led/yellow")) {
+    current_color_led = Yellow;
+
+  } else if (strstr(request, "GET /led/white")) {
+    current_color_led = White;
+
+  } else if (strstr(request, "GET /led/violet")) {
+    current_color_led = Violet;
+  } else if (strstr(request, "GET /led/cyan")) {
+    current_color_led = Cyan;
+
+  } else if (strstr(request, "GET /led/off")) {
+    current_color_led = Black;
+
+  } else if (strstr(request, "GET /led/intensity/0")) {
+    wrap = 0;
+
+  } else if (strcmp(request, "GET /led/intensity/10") == 0) {
+    wrap = 10;
+
+  } else if (strstr(request, "GET /led/intensity/20")) {
+    wrap = 20;
+
+  } else if (strstr(request, "GET /led/intensity/30")) {
+    wrap = 30;
+
+  } else if (strstr(request, "GET /led/intensity/40")) {
+    wrap = 40;
+
+  } else if (strstr(request, "GET /led/intensity/50")) {
+    wrap = 50;
+
+  } else if (strstr(request, "GET /led/intensity/60")) {
+    wrap = 60;
+
+  } else if (strstr(request, "GET /led/intensity/70")) {
+    wrap = 70;
+  } else if (strstr(request, "GET /led/intensity/80")) {
+    wrap = 80;
+
+  } else if (strstr(request, "GET /led/intensity/90")) {
+    wrap = 90;
+
+  } else if (strcmp(request, "GET /led/intensity/100") == 0) {
+    wrap = 100;
+  }
+
+  select_color(current_color_led, wrap, pin_led_blue, pin_led_red,
+               pin_led_green);
 }

@@ -7,7 +7,7 @@ void init_stack(Stack *stack) {
   stack->size = 0;
 }
 
-bool isEmpty(Stack *stack) { return stack->top == NULL; }
+bool isEmpty(Stack *stack) { return stack->size == 0; }
 
 void push(Stack *stack, char *request) {
   Node *newNode = malloc(sizeof(Node));
@@ -17,7 +17,12 @@ void push(Stack *stack, char *request) {
   stack->size++;
 }
 
-char *top(Stack *stack) { return stack->top->request; }
+char *top(Stack *stack) {
+  if (isEmpty(stack)) {
+    return NULL;
+  }
+  return stack->top->request;
+}
 
 void pop(Stack *stack) {
   Node *temp = stack->top;

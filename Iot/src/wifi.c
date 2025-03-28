@@ -6,6 +6,8 @@
 #include <pico/types.h>
 #include <wifi.h>
 
+#include <stack.h>
+
 #include <stdio.h>
 #include <string.h>
 
@@ -17,11 +19,7 @@
   "close\r\n\r\n"                                                              \
   "{ \"status\": \"OK\", \"color\": \"Azul\" }\r\n"
 
-const uint pin_led_red = 13;
-const uint pin_led_blue = 12;
-const uint pin_led_green = 11;
-colors current_color_led = Black;
-uint wrap = 100;
+extern Stack stack_request;
 
 // Variável para armazenar a cor atual
 char current_color[16] = "Desligado";
@@ -42,65 +40,100 @@ static err_t http_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
   char *response = NULL;
 
   if (strstr(request, "GET /led/blue")) {
-    current_color_led = Blue;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/blue");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/red")) {
-    current_color_led = Red;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/red");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/green")) {
-    current_color_led = Green;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/green");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/yellow")) {
-    current_color_led = Yellow;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/yellow");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/white")) {
-    current_color_led = White;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/white");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/violet")) {
-    current_color_led = Violet;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/violet");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/cyan")) {
-    current_color_led = Cyan;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/cyan");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/off")) {
-    current_color_led = Black;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/off");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/intensity/0")) {
-    wrap = 0;
-
-  } else if (strstr(request, "GET /led/intensity/10")) {
-    wrap = 10;
-
-  } else if (strstr(request, "GET /led/intensity/20")) {
-    wrap = 20;
-
-  } else if (strstr(request, "GET /led/intensity/30")) {
-    wrap = 30;
-
-  } else if (strstr(request, "GET /led/intensity/40")) {
-    wrap = 40;
-
-  } else if (strstr(request, "GET /led/intensity/50")) {
-    wrap = 50;
-
-  } else if (strstr(request, "GET /led/intensity/60")) {
-    wrap = 60;
-
-  } else if (strstr(request, "GET /led/intensity/70")) {
-    wrap = 70;
-
-  } else if (strstr(request, "GET /led/intensity/80")) {
-    wrap = 80;
-
-  } else if (strstr(request, "GET /led/intensity/90")) {
-    wrap = 90;
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/0");
+    push(&stack_request, request);
 
   } else if (strstr(request, "GET /led/intensity/100")) {
-    wrap = 100;
-  }
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/100");
+    push(&stack_request, request);
 
-  select_color(current_color_led, wrap, pin_led_blue, pin_led_red,
-               pin_led_green);
+  } else if (strstr(request, "GET /led/intensity/20")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/20");
+    push(&stack_request, request);
+
+  } else if (strstr(request, "GET /led/intensity/30")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/30");
+    push(&stack_request, request);
+
+  } else if (strstr(request, "GET /led/intensity/40")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/40");
+    push(&stack_request, request);
+
+  } else if (strstr(request, "GET /led/intensity/50")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/50");
+    push(&stack_request, request);
+
+  } else if (strstr(request, "GET /led/intensity/60")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/60");
+    push(&stack_request, request);
+
+  } else if (strstr(request, "GET /led/intensity/70")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/70");
+    push(&stack_request, request);
+
+  } else if (strstr(request, "GET /led/intensity/80")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/80");
+    push(&stack_request, request);
+
+  } else if (strstr(request, "GET /led/intensity/90")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/90");
+    push(&stack_request, request);
+
+  } else if (strstr(request, "GET /led/intensity/10")) {
+    char *request = malloc(sizeof(char) * 100);
+    strcpy(request, "GET /led/intensity/10");
+    push(&stack_request, request);
+  }
 
   // Libera o buffer recebido
   pbuf_free(p);
