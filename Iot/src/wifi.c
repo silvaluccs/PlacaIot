@@ -42,56 +42,65 @@ static err_t http_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
   char *response = NULL;
 
   if (strstr(request, "GET /led/blue")) {
-    select_color(Blue, wrap, pin_led_blue, pin_led_red, pin_led_green);
     current_color_led = Blue;
-    response = "{ \"status\": \"OK\", \"color\": \"Blue\" }";
 
   } else if (strstr(request, "GET /led/red")) {
-    select_color(Red, wrap, pin_led_blue, pin_led_red, pin_led_green);
     current_color_led = Red;
-    response = "{ \"status\": \"OK\", \"color\": \"Red\" }";
 
   } else if (strstr(request, "GET /led/green")) {
     current_color_led = Green;
-    response = "{ \"status\": \"OK\", \"color\": \"Green\" }";
-    select_color(Green, wrap, pin_led_blue, pin_led_red, pin_led_green);
 
   } else if (strstr(request, "GET /led/yellow")) {
     current_color_led = Yellow;
-    select_color(Yellow, wrap, pin_led_blue, pin_led_red, pin_led_green);
-    response = "{ \"status\": \"OK\", \"color\": \"Yellow\" }";
 
   } else if (strstr(request, "GET /led/white")) {
     current_color_led = White;
-    select_color(White, wrap, pin_led_blue, pin_led_red, pin_led_green);
-    response = "{ \"status\": \"OK\", \"color\": \"White\" }";
 
   } else if (strstr(request, "GET /led/violet")) {
     current_color_led = Violet;
-    response = "{ \"status\": \"OK\", \"color\": \"Violet\" }";
-    select_color(Violet, wrap, pin_led_blue, pin_led_red, pin_led_green);
 
   } else if (strstr(request, "GET /led/cyan")) {
     current_color_led = Cyan;
-    select_color(Cyan, wrap, pin_led_blue, pin_led_red, pin_led_green);
-    response = "{ \"status\": \"OK\", \"color\": \"Cyan\" }";
 
   } else if (strstr(request, "GET /led/off")) {
     current_color_led = Black;
-    select_color(Black, wrap, pin_led_blue, pin_led_red, pin_led_green);
-    response = "{ \"status\": \"OK\", \"color\": \"Off\" }";
+
+  } else if (strstr(request, "GET /led/intensity/0")) {
+    wrap = 0;
+
+  } else if (strstr(request, "GET /led/intensity/10")) {
+    wrap = 10;
+
+  } else if (strstr(request, "GET /led/intensity/20")) {
+    wrap = 20;
+
+  } else if (strstr(request, "GET /led/intensity/30")) {
+    wrap = 30;
+
+  } else if (strstr(request, "GET /led/intensity/40")) {
+    wrap = 40;
+
+  } else if (strstr(request, "GET /led/intensity/50")) {
+    wrap = 50;
+
+  } else if (strstr(request, "GET /led/intensity/60")) {
+    wrap = 60;
+
+  } else if (strstr(request, "GET /led/intensity/70")) {
+    wrap = 70;
+
+  } else if (strstr(request, "GET /led/intensity/80")) {
+    wrap = 80;
+
+  } else if (strstr(request, "GET /led/intensity/90")) {
+    wrap = 90;
+
+  } else if (strstr(request, "GET /led/intensity/100")) {
+    wrap = 100;
   }
 
-  // Envia a resposta HTTP
-  const char *http_response_header =
-      "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nConnection: "
-      "close\r\n\r\n";
-
-  char full_response[strlen(http_response_header) + strlen(response) + 1];
-  snprintf(full_response, sizeof(full_response), "%s%s", http_response_header,
-           response);
-
-  tcp_write(tpcb, full_response, strlen(full_response), TCP_WRITE_FLAG_COPY);
+  select_color(current_color_led, wrap, pin_led_blue, pin_led_red,
+               pin_led_green);
 
   // Libera o buffer recebido
   pbuf_free(p);
