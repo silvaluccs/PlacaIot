@@ -3,6 +3,23 @@
 
 #include <pico/stdlib.h>
 
-void inicializar_led_pwm(uint pin_led);
+typedef enum colors {
+    Red,
+    Blue,
+    Green,
+    White,
+    Cyan,
+    Violet,
+    Yellow,
+    Black
+
+} colors;
+
+void init_led_pwm(uint pin_led);
+void led_on(uint pin_led, uint wrap);
+void led_off(uint pin_led);
+void select_color(colors color, uint wrap, uint pin_led_blue, uint pin_led_red,
+    uint pin_led_green);
+void process_request(char* request);
 
 #endif
